@@ -1,23 +1,6 @@
 #!/bin/bash
 
-if ! command -v wget &> /dev/null; then
-  echo "wget could not be found, installing..."
-  apt-get update && apt-get install -y wget
-fi
-wget https://github.com/docker/getting-started/archive/refs/heads/master.zip
-
-if ! command -v unzip &> /dev/null; then
-  echo "unzip could not be found, installing..."
-  apt-get update && apt-get install -y unzip
-fi
-
 unzip master.zip -d master
-
-if [ ! -d "app" ]; then
-  echo "'app' directory does not exist, ensure the unzipped structure is correct"
-  exit 1
-fi
-
 cd app
 
 echo "FROM node:20-alpine" > Dockerfile
@@ -39,5 +22,7 @@ while is_port_in_use $PORT; do
   echo "Port $PORT is in use, trying next port..."
   PORT=$((PORT + 1))
 done
+
+echo "The used port is $PORT"
 
 docker run -dp 5000:5000 todo
