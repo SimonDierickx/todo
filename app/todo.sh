@@ -28,6 +28,6 @@ done
 
 echo "The used port is $PORT"
 
-docker run -t -d -p $PORT:$PORT --name todo todo
+docker run -t -d -p $PORT:3000 --name todo todo
 
 docker ps -a
